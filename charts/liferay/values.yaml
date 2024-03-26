@@ -5,8 +5,8 @@
 replicaCount: 1
 
 image:
-  repository: liferay/portal
-  pullPolicy: IfNotPresent
+  repository: liferay/portal:latest
+  pullPolicy: Always
 
 imagePullSecrets: []
 nameOverride: ""
@@ -47,7 +47,6 @@ tolerations: []
 affinity: {}
 
 java:
-  version: zulu11
   opts: -Xms4g -Xmx4g
 
 mountPath:

@@ -5,13 +5,12 @@ metadata:
   labels:
   {{- include "liferay.labels" . | nindent 4 }}
 spec:
-  storageClassName: manual
+  #storageClassName: default
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 2Gi
-  volumeName: {{ include "liferay.fullname" . }}-data-pv
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -20,13 +19,12 @@ metadata:
   labels:
     {{- include "liferay.labels" . | nindent 4 }}
 spec:
-  storageClassName: manual
+  #storageClassName: default
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-  volumeName: {{ include "liferay.fullname" . }}-mnt-pv
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -35,13 +33,12 @@ metadata:
   labels:
   {{- include "liferay.labels" . | nindent 4 }}
 spec:
-  storageClassName: manual
+  #storageClassName: default
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-  volumeName: {{ include "liferay.fullname" . }}-modules-pv
 ---
 kind: PersistentVolumeClaim
 apiVersion: v1
@@ -50,10 +47,9 @@ metadata:
   labels:
   {{- include "liferay.labels" . | nindent 4 }}
 spec:
-  storageClassName: manual
+  #storageClassName: default
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 1Gi
-  volumeName: {{ include "liferay.fullname" . }}-war-pv

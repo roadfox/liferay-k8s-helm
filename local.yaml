@@ -1,7 +1,7 @@
 
 global:
   pv:
-    create: true
+    create: false
 
 liferay:
   java:
