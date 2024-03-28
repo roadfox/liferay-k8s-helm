@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: liferay/portal:latest
+  repository: liferay/portal  # version is set in Chart.yml
   pullPolicy: Always
 
 imagePullSecrets: []
@@ -17,7 +17,10 @@ serviceAccount:
   annotations: {}
   name:
 
-podSecurityContext: {}
+podSecurityContext:
+  runAsUser: 1000
+  runAsGroup: 1000
+  fsGroup: 1000
 
 securityContext: {}
 
@@ -28,9 +31,14 @@ service:
 ingress:
   enabled: true
   hosts:
-    - host: liferay.local
+    - host: liferay.k8s.tccloud.ch
       paths: ["/"]
   tls: []
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "JSESSIONID"
+    nginx.ingress.kubernetes.io/session-cookie-expires: "172800"
+    nginx.ingress.kubernetes.io/session-cookie-max-age: "172800"  
 
 resources:
   requests:

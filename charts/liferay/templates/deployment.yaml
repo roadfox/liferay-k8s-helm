@@ -34,14 +34,14 @@ spec:
               value: {{ .Values.java.opts }}
             - name: LIFERAY_MODULE_PERIOD_FRAMEWORK_PERIOD_PROPERTIES_PERIOD_OSGI_PERIOD_CONSOLE
               value: 0.0.0.0:11311
-            - name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD
-              value: {{ .Values.global.mysql.password }}
-            - name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME
-              value: {{ .Values.global.mysql.user }}
-            - name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL
-              value: {{ .Values.global.mysql.url }}
-            - name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME
-              value: {{ .Values.global.mysql.driver }}
+            #- name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_PASSWORD
+            #  value: {{ .Values.global.mysql.password }}
+            #- name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_USERNAME
+            #  value: {{ .Values.global.mysql.user }}
+            #- name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_URL
+            #  value: {{ .Values.global.mysql.url }}
+            #- name: LIFERAY_JDBC_PERIOD_DEFAULT_PERIOD_DRIVER_UPPERCASEC_LASS_UPPERCASEN_AME
+            #  value: {{ .Values.global.mysql.driver }}
             - name: LIFERAY_WEB_PERIOD_SERVER_PERIOD_DISPLAY_PERIOD_NODE #La usaremos con el fin de probar el cluster
               value: "true"
             - name: LIFERAY_REDIRECT_PERIOD_URL_PERIOD_SECURITY_PERIOD_MODE #La usaremos para permitir los redirect en el cluster
@@ -58,10 +58,10 @@ spec:
               name: data-volume
             - name: mnt-volume
               mountPath: {{ .Values.mountPath.mnt | quote }}
-#            - name: osgi-modules-volume
-#              mountPath: {{ .Values.mountPath.osgi.modules | quote }}
-#            - name: osgi-war-volume
-#              mountPath: {{ .Values.mountPath.osgi.war | quote }}
+            - name: osgi-modules-volume
+              mountPath: {{ .Values.mountPath.osgi.modules | quote }}
+            - name: osgi-war-volume
+              mountPath: {{ .Values.mountPath.osgi.war | quote }}
           readinessProbe:
             httpGet:
               path: "/c/portal/layout"
@@ -86,12 +86,12 @@ spec:
         - name: mnt-volume
           persistentVolumeClaim:
             claimName: {{ include "liferay.fullname" . }}-mnt-pvc
-#        - name: osgi-modules-volume
-#          persistentVolumeClaim:
-#            claimName: {{ include "liferay.fullname" . }}-modules-pvc
-#        - name: osgi-war-volume
-#          persistentVolumeClaim:
-#            claimName: {{ include "liferay.fullname" . }}-war-pvc
+        - name: osgi-modules-volume
+          persistentVolumeClaim:
+            claimName: {{ include "liferay.fullname" . }}-modules-pvc
+        - name: osgi-war-volume
+          persistentVolumeClaim:
+            claimName: {{ include "liferay.fullname" . }}-war-pvc
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}

@@ -45,8 +45,10 @@ spec:
               containerPort: 9300
               protocol: TCP
           volumeMounts:
-            - mountPath: {{ .Values.mountPath.data | quote }}
-              name: data-volume
+            - name: data-volume
+              mountPath: {{ .Values.mountPath.data | quote }}
+            - name: log-volume
+              mountPath: {{ .Values.mountPath.log | quote }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       restartPolicy: Always
@@ -54,6 +56,9 @@ spec:
         - name: data-volume
           persistentVolumeClaim:
             claimName: {{ include "elasticsearch.fullname" . }}-data-pvc
+        - name: log-volume
+          persistentVolumeClaim:
+            claimName: {{ include "elasticsearch.fullname" . }}-log-pvc
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
